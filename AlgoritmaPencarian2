@@ -1,0 +1,78 @@
+# Daftar buku perpustakaan
+library = []
+
+def add_book():
+    # Fungsi untuk menambahkan buku kedalam perpustakaan
+    try:
+        title = input("Masukkan judul buku : ")
+        author = input("Masukkan nama penulis : ")
+        year = int(input("Masukkan tahun terbit : "))
+        stock = int(input("Masukkan stok buku : "))
+    except ValueError:
+        print("Input tidak valid. Pastikan Anda memasukkan angka untuk tahun dan stok buku.")
+        return
+
+    book = {"title": title, "author": author, "year": year, "stock": stock}
+    library.append(book)
+    print(f"Buku {title} berhasil ditambahkan ke dalam perpustakaan.")
+
+def search_book(keyword):
+    # Fungsi untuk mencari buku berdasarkan judul buku
+    results = []
+    for book in library:
+        if keyword.lower() in book["title"].lower() or keyword.lower() in book["author"].lower() or keyword.lower() in str(book["year"]):
+            results.append(book)
+    return results
+
+def check_stock(keyword):
+     # Fungsi untuk menampilkan stock buku
+    if keyword.isdigit():
+        keyword = int(keyword)
+        for book in library:
+            if book["title"].lower() == keyword:
+                print(f"Stok buku {book['title']}: {book['stock']}")
+                return
+        print(f"Buku {keyword} tidak ditemukan.")
+    else:
+        keyword = keyword.lower()
+        for book in library:
+            if keyword in book["title"].lower():
+                print(f"Stok buku {book['title']}: {book['stock']}")
+                return
+        print(f"Buku {keyword} tidak ditemukan.")
+
+def display_book(books):
+    # Fungsi untuk menampilkan daftar buku
+    if not books:
+        print("Tidak ada buku yang dapat ditemukan.")
+    else:
+        print("Buku ditemukan : ")
+        for book in books:
+            print(f"Judul buku : {book['title']}, Nama penulis : {book['author']}, Tahun terbit ; {book['year']}, Stok buku : {book['stock']}")
+
+def main():
+    while True:
+        print("\nDaftar Menu Perpustakaan:")
+        print("1. Tambah Buku")
+        print("2. Cari Buku")
+        print("3. Cek Stok")
+        print("4. Keluar")
+        choice = input("Masukkan pilihan menu (1/2/3/4) : ")
+
+        if choice == '1':
+            add_book()
+        elif choice == '2':
+            keyword = input("Masukkan kata kunci (judul, penulis, tahun terbit) : ")
+            results = search_book(keyword)
+            display_book(results)
+        elif choice == '3':
+            keyword = input("Masukkan kata kunci judul : ")
+            check_stock(keyword)
+        elif choice == '4':
+            print("Keluar dari program.")
+            break
+        else:
+            print("Pilihan tidak valid.")
+
+if __name__ == "__main__":
+    main()
